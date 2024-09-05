@@ -1,2 +1,20 @@
 schema: '2.0'
-stages: {}
+stages:
+  process:
+    cmd: python stages/process.py
+    deps:
+    - path: resources
+      hash: md5
+      md5: a2025efc4f35305ea3647510e5ccef47.dir
+      size: 7519432
+      nfiles: 2
+    - path: stages/process.py
+      hash: md5
+      md5: ebaf07a1c06a77630e202134601052e7
+      size: 906
+    outs:
+    - path: brick
+      hash: md5
+      md5: 55b2e0f07594c663cab4f4199a999c53.dir
+      size: 3864399
+      nfiles: 2

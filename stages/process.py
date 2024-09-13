@@ -1,33 +1,23 @@
-import pandas as pd
-import pyarrow as pa
-import pyarrow.parquet as pq
-import os
+import pandas as pd, pathlib, zipfile, os, shutil
 
-# Define the input and output directories
-input_dir = 'resources'
-output_dir = 'brick'
+brickdir = pathlib.Path('brick')
+brickdir.mkdir(parents=True, exist_ok=True)
 
-# Create the output directory if it doesn't exist
-os.makedirs(output_dir, exist_ok=True)
+tmpdir = pathlib.Path('temp')
+tmpdir.mkdir(parents=True, exist_ok=True)
 
-# Get a list of all CSV files in the resources directory
-csv_files = [f for f in os.listdir(input_dir) if f.endswith('.csv')]
+zipfile.ZipFile('resources/CoMPAIT_SharedFolder.zip').extractall(tmpdir)
 
-# Convert each CSV file to Parquet
-for csv_file in csv_files:
-    # Construct full file paths
-    csv_path = os.path.join(input_dir, csv_file)
-    parquet_path = os.path.join(output_dir, f"{os.path.splitext(csv_file)[0]}.parquet")
-    
-    # Read the CSV file
-    df = pd.read_csv(csv_path)
-    
-    # Convert to PyArrow Table
-    table = pa.Table.from_pandas(df)
-    
-    # Write to Parquet
-    pq.write_table(table, parquet_path)
-    
-    print(f"Converted {csv_file} to {parquet_path}")
+mdata = tmpdir / 'CoMPAIT_SharedFolder' / 'ModelingData'
+for csv_file in mdata.glob('*.csv'):
+    df = pd.read_csv(csv_file)
+    df.to_parquet(brickdir / f"{csv_file.stem}.parquet")
 
-print("Conversion complete!")
+# cleanup
+shutil.rmtree(tmpdir)
+
+# test that there are rows and columns in the output parquet files
+for parquet_file in brickdir.glob('*.parquet'):
+    df = pd.read_parquet(parquet_file)
+    assert not df.empty, f"Output file {parquet_file} is empty"
+    assert df.shape[1] > 0, f"Output file {parquet_file} has no columns"

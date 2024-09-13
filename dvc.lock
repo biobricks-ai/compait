@@ -3,18 +3,18 @@ stages:
   process:
     cmd: python stages/process.py
     deps:
-    - path: resources
+    - path: resources/CoMPAIT_SharedFolder.zip
       hash: md5
-      md5: a2025efc4f35305ea3647510e5ccef47.dir
-      size: 7519432
-      nfiles: 2
+      md5: 2f045a348c94978718006250f6a4fdd0
+      size: 388202671
     - path: stages/process.py
       hash: md5
-      md5: ebaf07a1c06a77630e202134601052e7
-      size: 906
+      md5: 2f0b4f49b9eedf129690472b741705a6
+      size: 782
+      isexec: true
     outs:
     - path: brick
       hash: md5
-      md5: 55b2e0f07594c663cab4f4199a999c53.dir
-      size: 3864399
+      md5: 5f8201cf06ccb160491b02fb1fc9eb55.dir
+      size: 3864405
       nfiles: 2

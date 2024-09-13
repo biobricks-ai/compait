@@ -2,7 +2,7 @@ stages:
   process:
     cmd: python stages/process.py
     deps:
-      - stages/process.py  # The script that processes the data
-      - resources           # The folder containing CSV files
+      - stages/process.py
+      - resources/CoMPAIT_SharedFolder.zip
     outs:
       - brick

@@ -1,0 +1,32 @@
+brick_name: compait
+description: >
+  CoMPAIT (Collaborative Modeling Project for Acute Inhalation Toxicity) is a harmonized dataset of acute inhalation toxicity studies. 
+  It contains curated LC50 data (in mg/L and ppm), exposure phase (gas, vapor, aerosol), chemical identifiers (SMILES, DTXSID, CASRN), 
+  and hazard categories across multiple regulatory frameworks (e.g. GHS, EPA OPPT, EPA OPP, CPSC, DoT). The dataset supports development 
+  and evaluation of in silico models for inhalation toxicity and regulatory classification.
+
+source:
+  - name: NICEATM CoMPAIT Consortium
+    url: https://ntp.niehs.nih.gov/go/iccvam
+    citation: Kleinstreuer et al. (2018) Comp Tox; Strickland et al. (2023); Karmaus et al. (2022)
+    license: CC BY 4.0
+
+dataset:
+  - Curated acute inhalation toxicity data from multiple sources including ECHA, ChemIDplus, DoD, EPA AEGL, and NIOSH
+  - Harmonized chemical identifiers (CASRN, SMILES, DTXSID) and exposure phase (gas, vapor, aerosol)
+  - Mapped endpoints to multiple regulatory classification systems (GHS, EPA OPPT, EPA OPP, CPSC, DoT)
+  - Converted units and added both categorical and continuous toxicity endpoints (e.g. LC50, hazard category)
+  - Exported to Parquet and JSON for machine learning applications
+
+transformations: |
+  - Preserved the original CoMPAIT challenge data as released by NICEATM
+  - Converted raw CSVs to a single Parquet file for efficient access
+  - No modifications, cleaning, or additional processing was applied
+
+assets:
+  - file: LC50_Tr.parquet
+    format: Parquet
+    description: Training set with curated LC50 data and chemical metadata
+  - file: PredictionSet.parquet
+    format: Parquet
+    description: Evaluation set for model predictions
